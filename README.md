@@ -6,6 +6,8 @@ A windows shell script which allows with a minimal configuration to automaticall
 
 ## Future Tasks
 * General Gantry Component Installation
+* Grav Plugin Installation Packaging
+* Wordpress Plugin Installation Packaging
 
 ## Known Issues
 * none
