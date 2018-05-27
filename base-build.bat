@@ -51,9 +51,9 @@ for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1)
 )
 
 echo.
-echo %title_hr%
+echo %prj_title_hr%
 echo # %prj_fullname% #
-echo %title_hr%
+echo %prj_title_hr%
 echo.
 echo %msg_start%
 
@@ -72,19 +72,19 @@ IF "%pkg_hydro_enable%" == "1" ( call :create_j3plugin "%folder_hydro%" "%pkg_hy
 IF "%pkg_helium_enable%" == "1" ( call :create_j3plugin "%folder_helium%" "%pkg_helium%" )
 
 REM --- Move Packages to Release Folder ---
-IF "%log_files%" == "0" ( echo. )
+IF "%scr_log_files%" == "0" ( echo. )
 cd..
 IF NOT EXIST %folder_release_dest% ( 
 	mkdir %folder_release_dest%
 	call :copy_folder_content "%folder_release%" "%folder_release_dest%"
-	IF "%log_files%" == "1" ( echo ------------------------- )
+	IF "%scr_log_files%" == "1" ( echo ------------------------- )
 	call :ColorizeText 0a "%msg_release_success%"
 ) ELSE (
 	call :ColorizeText 0C "%msg_release_failed%"
 )
 
 REM --- Stop Script and Cleanup ---
-IF %remove_folders% == 1 (
+IF %scr_remove_folders% == 1 (
 	rmdir "%folder_temp%" /S /Q
 	rmdir "%folder_release%" /S /Q
 )
@@ -95,7 +95,7 @@ REM --- Create Particle Only Package(s) for different languages ---
 REM --- Parameters: %~1 = destination folder particle, %~2 = archive name, %~3 = yaml base path
 :create_particle
 	setlocal EnableDelayedExpansion
-	(for %%l in (%langs_upper%) do (
+	(for %%l in (%prj_sup_langs%) do (
 
 		set "lang=%%l"
 		set folder_out=%~1_!lang!
@@ -103,17 +103,17 @@ REM --- Parameters: %~1 = destination folder particle, %~2 = archive name, %~3 =
 
 		IF NOT EXIST !folder_out! ( mkdir !folder_out! )
 
-		(for %%f in (%part_def_files%) do ( call :copy_general_files "%folder_root%\%%f" "!folder_out!"	))
-		(for %%c in (%comp_files%) do ( call :copy_general_files "%folder_root%\%folder_src_def%\%%c" "!folder_out!" ))
-		(for %%e in (%file_ext%) do ( call :copy_particle_files "%%e" "!lang!" "%~3" "!folder_out!" ))
+		(for %%f in (%pkg_def_files%) do ( call :copy_general_files "%folder_root%\%%f" "!folder_out!"	))
+		(for %%c in (%pkg_expl_files%) do ( call :copy_component_files "%%c" "!lang!" "%~3" "!folder_out!" ))
+		(for %%e in (%pkg_part_file_ext%) do ( call :copy_particle_files "%%e" "!lang!" "%~3" "!folder_out!" ))
 		call :copy_include_sub_folder "%folder_src_js%" "%folder_js%"
 		call :copy_include_sub_folder "%folder_src_scss%" "%folder_scss%"
 		call :create_archives "!package_name!" "!folder_out!" "1" "1"
 
-		IF %remove_folders% == 1 ( rmdir "!folder_out!" /S /Q )
-		IF "%log_files%" == "1" ( echo ------------------------- )
+		IF %scr_remove_folders% == 1 ( rmdir "!folder_out!" /S /Q )
+		IF "%scr_log_files%" == "1" ( echo ------------------------- )
 		echo !package_name! %msg_success%
-		IF "%log_files%" == "1" ( echo. )
+		IF "%scr_log_files%" == "1" ( echo. )
 	))
 	endlocal
 goto :EOF
@@ -122,7 +122,7 @@ REM --- Create Joomla 3 Plugin Packages for different languages ---
 REM --- Parameters: %~1 = destination folder plugin, %~2 = template name
 :create_j3plugin
 	setlocal EnableDelayedExpansion
-	(for %%l in (%langs_upper%) do (
+	(for %%l in (%prj_sup_langs%) do (
 
 		set "lang=%%l"
 		set folder_out=%~1_!lang!
@@ -133,21 +133,21 @@ REM --- Parameters: %~1 = destination folder plugin, %~2 = template name
 		IF NOT EXIST !folder_out! ( mkdir !folder_out! )
 		IF NOT EXIST !folder_out_sub! ( mkdir !folder_out_sub! )
 
-		(for %%e in (%file_ext%) do ( call :copy_particle_files "%%e" "!lang!" "%folder_src_def%" "!folder_out_sub!" ))
-		(for %%c in (%comp_files%) do ( call :copy_general_files "%folder_root%\%folder_src_def%\%%c" "!folder_out_sub!" ))
-		(for %%f in (%plugin_def_files%) do ( call :copy_general_files "!folder_platform!\%%f" "!folder_out!" ))
+		(for %%e in (%pkg_part_file_ext%) do ( call :copy_particle_files "%%e" "!lang!" "%folder_src_def%" "!folder_out_sub!" ))
+		(for %%c in (%pkg_expl_files%) do ( call :copy_component_files "%%c" "!lang!" "%folder_src_def%" "!folder_out_sub!" ))
+		(for %%f in (%pkg_j3_def_files%) do ( call :copy_general_files "!folder_platform!\%%f" "!folder_out!" ))
 		call :copy_include_sub_folder "%folder_src_js%" "%folder_js%"
 		call :copy_include_sub_folder "%folder_src_scss%" "%folder_scss%"
 		call :copy_plugin_files "!lang!" "!folder_platform!" "%~2" "!folder_out!"
 		call :create_archives "!package_name!" "!folder_out!" "1" "0"
 
-		IF %remove_folders% == 1 (
+		IF %scr_remove_folders% == 1 (
 			rmdir "!folder_out_sub!" /S /Q
 			rmdir "!folder_out!" /S /Q
 		)
-		IF "%log_files%" == "1" ( echo ------------------------- )
+		IF "%scr_log_files%" == "1" ( echo ------------------------- )
 		echo !package_name! %msg_success%
-		IF "%log_files%" == "1" ( echo. )
+		IF "%scr_log_files%" == "1" ( echo. )
 	))
 	endlocal
 goto :EOF
@@ -157,18 +157,40 @@ REM --- Parameters: %~1 = extension, %~2 = language, %~3 = yaml base path, %~4 =
 :copy_particle_files 
 	set prj_trans_path=%folder_root%\%~3\%folder_trans%\!lang!\%prj_name%.%~1
 	
-	IF "%~1" == "%lang_ext%" (
+	IF "%~1" == "%pkg_lang_id%" (
 		set prj_path=%folder_root%\%~3\%prj_name%.%~1
-		IF "%~2" == "%default_lang%" (
-			IF "%log_files%" == "1" ( echo !prj_path! )
+		IF "%~2" == "%prj_def_lang%" (
+			IF "%scr_log_files%" == "1" ( echo !prj_path! )
 			copy !prj_path! %~4 >Nul
 		) ELSE (
-			IF "%log_files%" == "1" ( echo !prj_trans_path! )
+			IF "%scr_log_files%" == "1" ( echo !prj_trans_path! )
 			copy !prj_trans_path! %~4 >Nul
 		)
 	) ELSE (
 		set prj_path=%folder_root%\%folder_src_def%\%prj_name%.%~1
-		IF "%log_files%" == "1" ( echo !prj_path! )
+		IF "%scr_log_files%" == "1" ( echo !prj_path! )
+		copy !prj_path! %~4 >Nul
+	)
+goto :EOF
+
+
+REM --- Copies the component files to the current temp folder ---
+REM --- Parameters: %~1 = file name, %~2 = language, %~3 = yaml base path, %~4 = output folder
+:copy_component_files 
+	set prj_trans_path=%folder_root%\%~3\%folder_trans%\!lang!\%~1
+	
+	IF "%~1" == "%pkg_lang_id%" (
+		set prj_path=%folder_root%\%~3\%~1
+		IF "%~2" == "%prj_def_lang%" (
+			IF "%scr_log_files%" == "1" ( echo !prj_path! )
+			copy !prj_path! %~4 >Nul
+		) ELSE (
+			IF "%scr_log_files%" == "1" ( echo !prj_trans_path! )
+			copy !prj_trans_path! %~4 >Nul
+		)
+	) ELSE (
+		set prj_path=%folder_root%\%folder_src_def%\%~1
+		IF "%scr_log_files%" == "1" ( echo !prj_path! )
 		copy !prj_path! %~4 >Nul
 	)
 goto :EOF
@@ -176,7 +198,7 @@ goto :EOF
 REM --- Copies the general project files like license and readme  ---
 REM --- Parameters: %~1 = source folder, %~2 = output folder
 :copy_general_files
-	IF "%log_files%" == "1" ( echo %~1 )
+	IF "%scr_log_files%" == "1" ( echo %~1 )
 	copy %~1 %~2 >Nul
 goto :EOF
 
@@ -186,12 +208,12 @@ REM --- Parameters: %~1 = language, %~2 = platform folder, %~3 = template name, 
 	set temp_path=%~2\%~3\%prj_name%
 	set temp_trans_path=%~2\%~3\%folder_trans%\%~1\%prj_name%
 	
-	IF "%~1" == "%default_lang%" (
-		IF "%log_files%" == "1" ( echo !temp_path!.xml )
+	IF "%~1" == "%prj_def_lang%" (
+		IF "%scr_log_files%" == "1" ( echo !temp_path!.xml )
 		copy !temp_path!.xml %~4 >Nul
 		ren %~4\%prj_name%.xml %prj_name%-%~3.xml >Nul
 	) ELSE (
-		IF "%log_files%" == "1" ( echo !temp_trans_path!.xml )
+		IF "%scr_log_files%" == "1" ( echo !temp_trans_path!.xml )
 		copy !temp_trans_path!.xml %~4 >Nul
 		ren %~4\%prj_name%.xml %prj_name%-%~3.xml >Nul
 	)
@@ -203,20 +225,20 @@ REM --- Parameters: %~1 = src folder path, %~2 = target folder path
 	IF EXIST %folder_root%\%~1 (
 		set folder_out_inc=!folder_out!\%~2
 		IF NOT EXIST !folder_out_inc! ( mkdir !folder_out_inc! )
-		call :copy_folder_content_ow "%folder_root%\%~1" "!folder_out_inc!"
+		call :copy_folder_content_replace "%folder_root%\%~1" "!folder_out_inc!"
 	)
 goto :EOF
 
 REM --- Copies content of a folder and overwrites content
 REM --- Parameters: %~1 = Source Folder, %~2 = Destination Folder
-:copy_folder_content_ow
-	IF "%log_files%" == "1" ( xcopy /s /Y %~1 %~2 ) ELSE ( xcopy /s /Y %~1 %~2 >Nul )
+:copy_folder_content_replace
+	IF "%scr_log_files%" == "1" ( xcopy /s /Y %~1 %~2 ) ELSE ( xcopy /s /Y %~1 %~2 >Nul )
 goto :EOF
 
 REM --- Copies content of a folder without overwrite
 REM --- Parameters: %~1 = Source Folder, %~2 = Destination Folder
 :copy_folder_content
-	IF "%log_files%" == "1" ( xcopy /s %~1 %~2 ) ELSE ( xcopy /s %~1 %~2 >Nul )
+	IF "%scr_log_files%" == "1" ( xcopy /s %~1 %~2 ) ELSE ( xcopy /s %~1 %~2 >Nul )
 goto :EOF
 
 REM --- Creates Release Archives ---
