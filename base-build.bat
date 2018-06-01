@@ -15,6 +15,7 @@ REM --- Package Variables ---
 set pkg_leg=legacy
 set pkg_helium=helium
 set pkg_hydro=hydrogen
+set pkg_global=global
 set pkg_j3=j3
 
 REM --- Folder Variables ---
@@ -30,10 +31,13 @@ set folder_releases=releases
 set folder_def=default
 set folder_leg=legacy
 set folder_js=js
+set folder_css=css
 set folder_scss=scss
 set folder_helium=%pkg_j3%_%pkg_helium%
 set folder_hydro=%pkg_j3%_%pkg_hydro%
+set folder_global=%pkg_j3%_%pkg_global%
 set folder_src_js=src\%folder_js%
+set folder_src_css=src\%folder_css%
 set folder_src_scss=src\%folder_scss%
 set folder_release_dest=%folder_root%\%folder_releases%\%prj_rev%
 
@@ -70,6 +74,7 @@ IF "%pkg_leg_enable%" == "1" ( call :create_particle "%folder_leg%" "%pkg_leg%."
 REM --- Call Hydrogen / Helium Package Creation ----
 IF "%pkg_hydro_enable%" == "1" ( call :create_j3plugin "%folder_hydro%" "%pkg_hydro%" )
 IF "%pkg_helium_enable%" == "1" ( call :create_j3plugin "%folder_helium%" "%pkg_helium%" )
+IF "%pkg_global_enable%" == "1" ( call :create_j3plugin "%folder_global%" "%pkg_global%" )
 
 REM --- Move Packages to Release Folder ---
 IF "%scr_log_files%" == "0" ( echo. )
@@ -107,6 +112,7 @@ REM --- Parameters: %~1 = destination folder particle, %~2 = archive name, %~3 =
 		(for %%c in (%pkg_expl_files%) do ( call :copy_component_files "%%c" "!lang!" "%~3" "!folder_out!" ))
 		(for %%e in (%pkg_part_file_ext%) do ( call :copy_particle_files "%%e" "!lang!" "%~3" "!folder_out!" ))
 		call :copy_include_sub_folder "%folder_src_js%" "%folder_js%"
+		call :copy_include_sub_folder "%folder_src_css%" "%folder_css%"
 		call :copy_include_sub_folder "%folder_src_scss%" "%folder_scss%"
 		call :create_archives "!package_name!" "!folder_out!" "1" "1"
 
@@ -137,6 +143,7 @@ REM --- Parameters: %~1 = destination folder plugin, %~2 = template name
 		(for %%c in (%pkg_expl_files%) do ( call :copy_component_files "%%c" "!lang!" "%folder_src_def%" "!folder_out_sub!" ))
 		(for %%f in (%pkg_j3_def_files%) do ( call :copy_general_files "!folder_platform!\%%f" "!folder_out!" ))
 		call :copy_include_sub_folder "%folder_src_js%" "%folder_js%"
+		call :copy_include_sub_folder "%folder_src_css%" "%folder_css%"
 		call :copy_include_sub_folder "%folder_src_scss%" "%folder_scss%"
 		call :copy_plugin_files "!lang!" "!folder_platform!" "%~2" "!folder_out!"
 		call :create_archives "!package_name!" "!folder_out!" "1" "0"
