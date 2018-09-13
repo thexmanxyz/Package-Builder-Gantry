@@ -11,6 +11,6 @@ A windows shell script which allows with a minimal configuration to automaticall
 ## Known Issues
 * none
 
-## by [thex](https://github.com/thexmanxyz)
+## by [thex](https://github.com/thexmanxyz) | [gantryprojects](https://gantryprojects.com)
 Copyright (c) 2018, free to use in personal and commercial software as per the [license](/LICENSE.md).
 
