@@ -1,5 +1,5 @@
 # Windows thumbnail cache files
-Thumbs.db
+[Tt]humbs.db
 ehthumbs.db
 ehthumbs_vista.db
 
@@ -20,9 +20,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
-# Image DB
-[Tt]humbs.db
 
 # IntelliJ
 .idea/
