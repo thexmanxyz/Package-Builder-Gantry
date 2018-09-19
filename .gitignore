@@ -20,3 +20,12 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Image DB
+[Tt]humbs.db
+
+# IntelliJ
+.idea/
+
+# Mac OS
+.DS_Store/

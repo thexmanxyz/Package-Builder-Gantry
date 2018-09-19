@@ -8,6 +8,8 @@ REM #            Joomla plugin and Gantry component       #
 REM #            packages.                                #
 REM #                                                     #
 REM #   Author: Andreas Kar (thex) <andreas.kar@gmx.at>   #
+REM #   Repository: https://git.io/fA9Xu                  #
+REM #   Homepage: https://gantryprojects.com              #
 REM #                                                     #
 REM #######################################################
 
