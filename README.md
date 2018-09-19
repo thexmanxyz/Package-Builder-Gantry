@@ -1,12 +1,12 @@
 # Package Builder Gantry - Shell Script
-A windows shell script which allows with a minimal configuration to automatically build Joomla plugin and Gantry component packages.
+This project contains a windows shell script which allows with a minimal configuration to automatically build Joomla plugin and Gantry component packages.
 
 ## Prerequisites
 * Windows Shell
 
 ## Future Tasks
-* Grav Plugin Installation Packaging
-* Wordpress Plugin Installation Packaging
+- [ ] Grav Plugin Installation Packaging
+- [ ] Wordpress Plugin Installation Packaging
 
 ## Known Issues
 * none
