@@ -2,6 +2,7 @@
 This project contains a Windows Shell script which allows with a minimal configuration to automatically build Joomla plugin and Gantry component archives. The **Gantry Package Builder** can be easily configured to assist the release process with a consistent naming scheme and a flexible setup for the actual package content.
 
 ## Prerequisites
+* 7-Zip
 * Windows Shell
 
 ## Download
@@ -37,7 +38,7 @@ The following configuration parameters are available:
 * `pkg_hydro_enable`: `0` or `1`, defines if the Joomla plugin for Hydrogen should be generated
 * `pkg_global_enable`: `0` or `1`, defines if the Joomla plugin for global installation should be generated
 
-The build files have to be placed in a directory one layer below the project root to work correctly e.g. `root\build` or `root\make`.
+The build files have to be placed in a directory at least one layer below the project root to work correctly e.g. `root\build` or `root\make`.
 
 Take a look on my other [Gantry projects](https://gantryprojects.com) to get some examples on how you have to structure your project directory to be compatible with the *Gantry Package Builder*.
 
