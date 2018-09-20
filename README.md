@@ -26,7 +26,7 @@ The following configuration parameters are available:
 * `prj_sup_langs`: the languages supported by the project, comma separated list e.g. `EN, DE`
 * `pkg_g5_name`: a string appended to every Gantry package name to distinguish between Gantry object types e.g. `particle.only` or `atom.only`
 * `pkg_g5_def_files`: a set of default files that should be included within the Gantry package, comma separated list e.g. `LICENSE, README.md`
-* `pkg_j3_def_files`: a set of default files that should be included within the Joomla plugin package, comma separated list e.g. `LICENSE.pdf, README.txt`
+* `pkg_j3_def_files`: a set of default files that included within the Joomla plugin package, comma separated list e.g. `LICENSE.pdf, README.txt`
 * `pkg_expl_files`: a list of explicit files that should be added to all packages, e.g. `abc.html.twig`
 * `pkg_lang_id`: identification of the language source file, either file extension or full filename
 * `pkg_file_ext`: file extensions that should be automatically added to all packages, comma separated list e.g. `yaml, html.twig`
