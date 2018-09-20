@@ -5,8 +5,8 @@ This project contains a windows shell script which allows with a minimal configu
 * Windows Shell
 
 ## Future Tasks
-- [ ] Grav Plugin Installation Packaging
-- [ ] Wordpress Plugin Installation Packaging
+- [ ] Grav plugin package generation
+- [ ] Wordpress plugin package generation
 
 ## Known Issues
 * none
