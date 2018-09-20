@@ -39,6 +39,8 @@ The following configuration parameters are available:
 
 The build files have to be placed in a directory one layer below the project root to work correctly e.g. `root\build` or `root\make`.
 
+Take a look on my other [Gantry projects](https://gantryprojects.com) to get some examples on how you have to structure your project directory to be compatible with the *Gantry Package Builder*.
+
 ## Future Tasks
 - [ ] Grav plugin package generation
 - [ ] Wordpress plugin package generation
