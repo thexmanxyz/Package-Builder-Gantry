@@ -41,12 +41,29 @@ The build files have to be placed in a directory one layer below the project roo
 
 Take a look on my other [Gantry projects](https://gantryprojects.com) to get some examples on how you have to structure your project directory to be compatible with the *Gantry Package Builder*.
 
+## Features
+* automates the build process and creates all required packages at once
+* flexible and easy configuration as well as full control over the package content
+* built-in support for Gantry Particles and Atoms
+* built-in support for the Joomla plugin system
+* Joomla plugins can be explicitely created for the Gantry templates Helium or Hydrogen
+* Joomla plugins can be created for a global installation which removes dependencies on a particular template
+* multi-language support to create packages for different languages
+* legacy support which allows to create archives for certain target platforms
+* restrict the packages that should be generated for your release
+* additional files can be selectively added to your Gantry and Joomla archives
+* option to enable detailed debug information during the build process
+* define a folder to organize your releases for a clear overview of your current and past project revisions
+
 ## Future Tasks
 - [ ] Grav plugin package generation
 - [ ] Wordpress plugin package generation
 
 ## Known Issues
 * none
+
+## Dependencies
+[7-zip](http://www.7-zip.de/)
 
 ## by [thex](https://github.com/thexmanxyz) | [gantryprojects](https://gantryprojects.com)
 Copyright (c) 2018, free to use in personal and commercial software as per the [license](/LICENSE.md).
