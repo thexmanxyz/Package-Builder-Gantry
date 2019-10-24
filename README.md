@@ -67,5 +67,5 @@ Take a look on my other [Gantry projects](https://gantryprojects.com) to get som
 [7-Zip](http://www.7-zip.de/)
 
 ## by [thex](https://github.com/thexmanxyz) | [gantryprojects](https://gantryprojects.com)
-Copyright (c) 2018, free to use in personal and commercial software as per the [license](/LICENSE.md).
+Copyright (c) 2018, free to use in personal and commercial software as per the [license](/LICENSE).
 
